@@ -35,7 +35,6 @@ jobs:
     steps:
       # Checkout the repository to the runner
       - name: Checkout code
-        if: always()
         uses: actions/checkout@v2
 
 
@@ -120,6 +119,7 @@ jobs:
     steps:
 
       - name: Archive production artifacts
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: test report
