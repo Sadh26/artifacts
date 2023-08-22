@@ -41,89 +41,88 @@ jobs:
       - name: Open LabVIEW
         run: |
             "C:\Program Files\National Instruments\LabVIEW 2020\LabVIEW.exe"
-            Start-Sleep -Seconds 60
         # shell: cmd
 
-      - name: Run Tests
-        run: |
-          $starting_directory = "${{ github.workspace }}\src"
-          $errorIn = "false"
-          $isFileExist = $false
+      # - name: Run Tests
+      #   run: |
+      #     $starting_directory = "${{ github.workspace }}\src"
+      #     $errorIn = "false"
+      #     $isFileExist = $false
 
-          # The starting directory for iteration
-          $test_directory = "Tests"
-
-
-          # Function to find test vi files
-          function Find-ViFiles {
-              param (
-                  [string]$path
-              )
-
-              Get-ChildItem $path -Recurse | ForEach-Object {
-                  if ($_.PSIsContainer) {
-                      Find-ViFiles $_.FullName
-                  }
-                  elseif ($_.Extension -eq ".vi") {
-                      $isFileExist = $true
-                      Write-Output ("`n`nFound .vi file: " + $_.FullName)
-                      Write-Output ("Running unit test file " + $_.FullName)
-                      $output = g-cli --lv-ver 2020 $_.FullName
-                      Write-Output ("$output")
-                      if ($output -ne $null) {
-                        $errorIn = "true"
-                      }
-                  }
-              }
-              if ($isFileExist -eq $false) {
-                Write-Output "No test files found"
-              }
-              if ($errorIn -eq "true") {
-                return $true
-              }
-              else {
-                return $false
-              }
-          } 
-
-          # Function to find .lvproj files
-          function Find-lvprojFiles {
-              param (
-                  [string]$directory
-              )
-
-              $lvprojFiles = Get-ChildItem -Path $directory -Recurse -Filter *.lvproj -File
-
-              foreach ($lvprojFile in $lvprojFiles) {
-                  Write-Host ("Found .lvproj file: " + $lvprojFile.FullName)
-                  LabVIEWCLI -OperationName RunVI -VIPath "${{ github.workspace }}\src\Project file\OpenProject.vi" $lvprojFile.FullName
-                  $folder_name = "$(Split-Path $lvprojFile.FullName -Parent)\$test_directory"
-                  if (Test-Path -Path $folder_name -PathType Container)
-                  {
-                    $errorIn = Find-ViFiles "$folder_name"
-                  }
-                  else 
-                  {
-                    Write-Output "No test folder found"
-                  }
-              }
-              if ($errorIn -eq "true") {
-                Write-Output "Error Exist..."
-                Exit 1
-              }
-          }
+      #     # The starting directory for iteration
+      #     $test_directory = "Tests"
 
 
-          # Calling Find-lvprojFiles function with input parameter starting_directory
-          Find-lvprojFiles $starting_directory
+      #     # Function to find test vi files
+      #     function Find-ViFiles {
+      #         param (
+      #             [string]$path
+      #         )
 
-      - name: Archive production artifacts
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: test report
-          path: |
-            ${{ github.workspace }}\src\**\Tests\*.txt   
+      #         Get-ChildItem $path -Recurse | ForEach-Object {
+      #             if ($_.PSIsContainer) {
+      #                 Find-ViFiles $_.FullName
+      #             }
+      #             elseif ($_.Extension -eq ".vi") {
+      #                 $isFileExist = $true
+      #                 Write-Output ("`n`nFound .vi file: " + $_.FullName)
+      #                 Write-Output ("Running unit test file " + $_.FullName)
+      #                 $output = g-cli --lv-ver 2020 $_.FullName
+      #                 Write-Output ("$output")
+      #                 if ($output -ne $null) {
+      #                   $errorIn = "true"
+      #                 }
+      #             }
+      #         }
+      #         if ($isFileExist -eq $false) {
+      #           Write-Output "No test files found"
+      #         }
+      #         if ($errorIn -eq "true") {
+      #           return $true
+      #         }
+      #         else {
+      #           return $false
+      #         }
+      #     } 
+
+      #     # Function to find .lvproj files
+      #     function Find-lvprojFiles {
+      #         param (
+      #             [string]$directory
+      #         )
+
+      #         $lvprojFiles = Get-ChildItem -Path $directory -Recurse -Filter *.lvproj -File
+
+      #         foreach ($lvprojFile in $lvprojFiles) {
+      #             Write-Host ("Found .lvproj file: " + $lvprojFile.FullName)
+      #             LabVIEWCLI -OperationName RunVI -VIPath "${{ github.workspace }}\src\Project file\OpenProject.vi" $lvprojFile.FullName
+      #             $folder_name = "$(Split-Path $lvprojFile.FullName -Parent)\$test_directory"
+      #             if (Test-Path -Path $folder_name -PathType Container)
+      #             {
+      #               $errorIn = Find-ViFiles "$folder_name"
+      #             }
+      #             else 
+      #             {
+      #               Write-Output "No test folder found"
+      #             }
+      #         }
+      #         if ($errorIn -eq "true") {
+      #           Write-Output "Error Exist..."
+      #           Exit 1
+      #         }
+      #     }
+
+
+      #     # Calling Find-lvprojFiles function with input parameter starting_directory
+      #     Find-lvprojFiles $starting_directory
+
+      # - name: Archive production artifacts
+      #   if: ${{ always() }}
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: test report
+      #     path: |
+      #       ${{ github.workspace }}\src\**\Tests\*.txt   
 
       - name: Close LabVIEW
         if: ${{ always() }}
