@@ -112,19 +112,16 @@ jobs:
           # Calling Find-lvprojFiles function with input parameter starting_directory
           Find-lvprojFiles $starting_directory
 
-  test-report:
-    needs: run-tests
-    runs-on: self-hosted
-
-    steps:
-
       - name: Archive production artifacts
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: test report
           path: |
-            ${{ github.workspace }}\src\**\Tests\*.txt
+            ${{ github.workspace }}\src\**\Tests\*.txt          
+
+
+
       
 
 
