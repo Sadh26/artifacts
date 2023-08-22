@@ -15,16 +15,16 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains one job: It opens the project file and runs the test vis from Tests folder.
-  open-labview:
+  # open-labview:
 
-    runs-on: self-hosted
+  #   runs-on: self-hosted
 
-    steps:
-      # Checkout the repository to the runner
-      - name: Open LabVIEW
-        run: |
-            "C:\Program Files\National Instruments\LabVIEW 2020\LabVIEW.exe"
-        shell: cmd
+  #   steps:
+  #     # Checkout the repository to the runner
+  #     - name: Open LabVIEW
+  #       run: |
+  #           "C:\Program Files\National Instruments\LabVIEW 2020\LabVIEW.exe"
+  #       shell: cmd
         
 
   run-tests:
@@ -38,6 +38,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Open LabVIEW
+        run: |
+            "C:\Program Files\National Instruments\LabVIEW 2020\LabVIEW.exe"
+        shell: cmd
 
       - name: Run Tests
         run: |
