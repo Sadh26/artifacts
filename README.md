@@ -27,5 +27,5 @@
 
 
 <kbd>
-<img src="https://github.com/Sadh26/artifacts/blob/main/images/artifact2.png" height="300">
+<img src="https://github.com/Sadh26/artifacts/blob/main/images/artifact2.png">
 </kbd>
