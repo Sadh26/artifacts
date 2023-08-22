@@ -38,14 +38,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Open LabVIEW
-        run: |
-            "C:\Program Files\National Instruments\LabVIEW 2020\LabVIEW.exe"
-        shell: cmd
+      # - name: Open LabVIEW
+      #   run: |
+      #       "C:\Program Files\National Instruments\LabVIEW 2020\LabVIEW.exe"
+      #   shell: cmd
 
       - name: Run Tests
         run: |
-        
+          start "C:\Program Files\National Instruments\LabVIEW 2020\LabVIEW.exe"
           $starting_directory = "${{ github.workspace }}\src"
           $errorIn = "false"
           $isFileExist = $false
