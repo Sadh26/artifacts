@@ -4,7 +4,6 @@ name: Run Tests
 # Controls when the workflow will run
 on:
   # Triggers the workflow on PR to the master/main branch. 
-  push:
   # It is advised to work on a feature branch and not the master/main branch.
   pull_request:
     branches: ["main"]
