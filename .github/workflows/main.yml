@@ -28,7 +28,7 @@ jobs:
         
 
   run-tests:
-    needs: open-labview
+    # needs: open-labview
   
     # Set the self hosted runner
     runs-on: self-hosted
