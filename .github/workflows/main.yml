@@ -41,7 +41,7 @@ jobs:
       - name: Open LabVIEW
         run: |
             start "C:\Program Files\National Instruments\LabVIEW 2020\LabVIEW.exe"
-            Start-Sleep -Seconds 45
+            
         # shell: cmd
 
       - name: Run Tests
