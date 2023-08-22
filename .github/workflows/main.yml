@@ -118,18 +118,14 @@ jobs:
         with:
           name: test report
           path: |
-            ${{ github.workspace }}\src\**\Tests\*.txt          
+            ${{ github.workspace }}\src\**\Tests\*.txt   
 
-  close-labview:
-
-    runs-on: self-hosted
-
-    steps:
-      # Checkout the repository to the runner
       - name: Close LabVIEW
+        if: ${{ always() }}
         run: |
             taskkill /im LabVIEW.exe
-        shell: cmd
+        shell: cmd       
+
 
       
 
